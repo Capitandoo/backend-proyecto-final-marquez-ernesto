@@ -1,0 +1,279 @@
+paths:
+  /users:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Usuarios
+      responses:
+        "200":
+          description: Usuarios obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/User"
+        "500":
+          description: Error del servidor
+
+    delete:
+      summary: Eliminar usuarios que no se conectan hace más de dos días
+      tags:
+        - Usuarios
+      responses:
+        "200":
+          description: Usuarios eliminados correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito
+                    example: Usuarios eliminados con éxito
+        "404":
+          description: Usuario no encontrado
+
+  /users/register:
+    post:
+      summary: Registrar un nuevo usuario
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: Nombre del usuario
+                  example: Juan
+                last_name:
+                  type: string
+                  description: Apellido del usuario
+                  example: Gomez
+                email:
+                  type: string
+                  description: Correo electrónico del usuario
+                  example: juancito@gmail.com
+                age:
+                  type: number
+                  description: Edad del usuario
+                  example: 30
+                password:
+                  type: string
+                  description: Contraseña del usuario
+                  example: mypassword
+      responses:
+        "201":
+          description: Usuario registrado con éxito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito
+                    example: Usuario registrado con éxito
+                  user:
+                    $ref: "#components/schemas/User"
+        "400":
+          description: Error en la solicitud
+        "409":
+          description: El correo electrónico ya está registrado
+
+  /users/login:
+    post:
+      summary: Iniciar sesión de usuario
+      tags:
+        - Usuarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: Correo electrónico del usuario
+                  example: juancito@gmail.com
+                password:
+                  type: string
+                  description: Contraseña del usuario
+                  example: mypassword
+      responses:
+        "200":
+          description: Inicio de sesión exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito
+                    example: Inicio de sesión exitoso
+                  user:
+                    type: string
+                    description: Token del usuario autenticado
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU1MzZhZjU5ZGM3ZDcwZTczZDhjYWMiLCJpYXQiOjE2OTMzOTMzODIsImV4cCI6MTY5MzM5NDI4Mn0.3t3rqyv_3CPzd6yNnJgPvifmw2IBvY0Il7eqc4Zgh_w
+        "401":
+          description: Credenciales incorrectas
+        "404":
+          description: Usuario no encontrado
+
+  /users/perfil:
+    get:
+      summary: Obtener información del usuario actual
+      tags:
+        - Usuarios
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Información del usuario actual
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  "Usuario Actual":
+                    type: object
+                    properties:
+                      Nombre:
+                        type: string
+                        description: Nombre del usuario
+                        example: Admin
+                      Apellido:
+                        type: string
+                        description: Apellido del usuario
+                        example: Admin
+                      Email:
+                        type: string
+                        description: Correo electrónico del usuario
+                        example: adminCoder@coder.com
+                      Carrito:
+                        type: string
+                        description: Id generado por MongoDB
+                        example: 64b6b9c29790ba99d110235z
+                      Tipo_de_cuenta:
+                        type: string
+                        description: Rol del usuario
+                        example: admin
+        "401":
+          description: No se ha iniciado sesión
+
+  /users/premium/{uid}:
+    put:
+      summary: Cambiar el rol de un usuario a premium o viceversa
+      tags:
+        - Usuarios
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario que se desea actualizar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Rol de usuario actualizado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito
+                    example: Rol de usuario actualizado a premium
+                  user:
+                    $ref: "#components/schemas/User"
+        "400":
+          description: ID de usuario no válido
+        "404":
+          description: Usuario no encontrado
+
+  /users/{uid}/documents:
+    post:
+      summary: Subir documentos
+      tags:
+        - Usuarios
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          description: ID del usuario al que se desean agregar documentos
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                uploadType:
+                  type: string
+                  description: Tipo de carga (profile, document, o product)
+                  enum: [profile, document, product]
+                uploads:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Archivos a cargar
+      responses:
+        "200":
+          description: Documentos subidos exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensaje de éxito
+                    example: Documentos subidos exitosamente
+                  user:
+                    $ref: "#components/schemas/User"
+        "400":
+          description: ID de usuario no válido
+        "404":
+          description: Usuario no encontrado
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        Nombre:
+          type: string
+          description: Nombre del usuario
+          example: Admin
+        Apellido:
+          type: string
+          description: Apellido del usuario
+          example: Admin
+        Email:
+          type: string
+          description: Correo electrónico del usuario
+          example: adminCoder@coder.com
+        Carrito:
+          type: string
+          description: Id generado por MongoDB
+          example: 64b6b9c29790ba99d110235z
+        Tipo_de_cuenta:
+          type: string
+          description: Rol del usuario
+          example: admin
