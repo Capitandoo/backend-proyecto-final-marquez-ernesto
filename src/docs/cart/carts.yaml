@@ -4,6 +4,8 @@ paths:
       summary: Crea un nuevo carrito.
       tags:
         - Carts
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: El carrito se creo correctamente
@@ -17,6 +19,8 @@ paths:
       summary: Obtiene un carrito con sus productos.
       tags:
         - Carts
+      security:
+        - bearerAuth: []
       parameters:
         - name: cid
           in: path
@@ -42,6 +46,8 @@ paths:
       summary: Se reemplanzan los productos existentes en el carrito por los enviados en el cuerpo de la petición.
       tags:
       - Carts
+      security:
+        - bearerAuth: []
       parameters:
       - name: cid
         in: path
@@ -64,9 +70,11 @@ paths:
           description: Hubo un error al modificar el carrito.
 
     delete:
-      summary: Se elimina el carrito seleccionado.
+      summary: Se eliminan los productos del carrito seleccionado.
       tags:
         - Carts
+      security:
+        - bearerAuth: []
       parameters:
         - name: cid
           in: path
@@ -76,7 +84,7 @@ paths:
             $type: string
       responses:
         "200":
-          description: El carrito se elimino correctamente
+          description: La lista de productos a sido borrada
         "401":
           description: Usuario no autorizado.
         "500":
@@ -87,6 +95,8 @@ paths:
       summary: Agrega un producto al carrito
       tags:
         - Carts
+      security:
+        - bearerAuth: []
       parameters:
         - name: cid
           in: path
@@ -114,6 +124,8 @@ paths:
       summary: Actualiza un producto del carrito.
       tags:
         - Carts
+      security:
+        - bearerAuth: []
       parameters:
         - name: cid
           in: path
@@ -139,6 +151,8 @@ paths:
       summary: Elimina un producto del carrito.
       tags:
         - Carts
+      security:
+        - bearerAuth: []
       parameters:
         - name: cid
           in: path
@@ -165,6 +179,8 @@ paths:
       summary: Se genera y recibe un ticket de la compra.
       tags:
       - Carts
+      security:
+        - bearerAuth: []
       parameters:
         - name: cid
           in: path
@@ -187,6 +203,11 @@ paths:
           description: Error al finalizar la compra.
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Cart:
       type: object

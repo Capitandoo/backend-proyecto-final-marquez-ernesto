@@ -87,7 +87,6 @@ export default class CartController extends Controllers {
       const cid = req.params.cid;
       const data = {...req.body};
       const update = await cartService.updateCart (cid, data);
-      console.log('upDate====>',update)
       res.json (update);
     } catch (error) {
       logger.error (error);
