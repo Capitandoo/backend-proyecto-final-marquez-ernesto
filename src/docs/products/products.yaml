@@ -4,6 +4,8 @@ paths:
             summary: Obtiene todos los productos
             tags:
                 - Products
+            security:
+              - bearerAuth: []
             responses:
                 "200":
                     description: Los productos se obtuvieron correctamente de la Base de datos
@@ -21,6 +23,8 @@ paths:
             summary: Inserta un nuevo producto en la base de datos.
             tags:
                 - Products
+            security:
+              - bearerAuth: []
             requestBody:
                 required: true
                 content:
@@ -43,6 +47,8 @@ paths:
             summary: Obtiene un producto por su ID
             tags:
                 - Products
+            security:
+              - bearerAuth: []
             parameters:
                 -   name: pid
                     in: path
@@ -67,6 +73,8 @@ paths:
             summary: Actualiza un producto por su ID
             tags:
                 - Products
+            security:
+              - bearerAuth: []
             parameters:
                 -   name: pid
                     in: path
@@ -92,6 +100,8 @@ paths:
             summary: Elimina un produtco
             tags:
                 - Products
+            security:
+              - bearerAuth: []
             parameters:
                 -   name: pid
                     in: path
@@ -106,7 +116,12 @@ paths:
                     description: Usuario no autorizado.
                 "500":
                     description: No se pudo eliminar el producto.
-components: 
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas: 
     Product:
       type: object

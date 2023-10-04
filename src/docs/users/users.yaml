@@ -20,6 +20,8 @@ paths:
       summary: Eliminar usuarios que no se conectan hace más de dos días
       tags:
         - Usuarios
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Usuarios eliminados correctamente
@@ -32,6 +34,8 @@ paths:
                     type: string
                     description: Mensaje de éxito
                     example: Usuarios eliminados con éxito
+        "401":
+          description: Credenciales incorrectas
         "404":
           description: Usuario no encontrado
 
@@ -67,8 +71,12 @@ paths:
                   type: string
                   description: Contraseña del usuario
                   example: mypassword
+                role:
+                  type: string
+                  description: Tipo de cuenta del usuario
+                  example: user
       responses:
-        "201":
+        "200":
           description: Usuario registrado con éxito
           content:
             application/json:
@@ -81,7 +89,7 @@ paths:
                     example: Usuario registrado con éxito
                   user:
                     $ref: "#components/schemas/User"
-        "400":
+        "401":
           description: Error en la solicitud
         "409":
           description: El correo electrónico ya está registrado
@@ -191,11 +199,11 @@ paths:
                   message:
                     type: string
                     description: Mensaje de éxito
-                    example: Rol de usuario actualizado a premium
+                    example: Rol de usuario actualizado
                   user:
                     $ref: "#components/schemas/User"
-        "400":
-          description: ID de usuario no válido
+        "403":
+          description: El usuario debe cargar los documentos requeridos para ser premium
         "404":
           description: Usuario no encontrado
 
@@ -242,7 +250,7 @@ paths:
                     example: Documentos subidos exitosamente
                   user:
                     $ref: "#components/schemas/User"
-        "400":
+        "401":
           description: ID de usuario no válido
         "404":
           description: Usuario no encontrado

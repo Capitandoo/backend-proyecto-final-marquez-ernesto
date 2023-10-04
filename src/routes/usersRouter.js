@@ -16,7 +16,7 @@ router.get("/profile-github", passport.authenticate("github", { scope: ["user:em
 router.get("/perfil", passportCall("jwt"), controller.perfil);
 router.post("/logout", controller.logout);
 router.post("/resetpassword", controller.resetpassword);
-router.get("/premium/:uid", controller.changeRole);
+router.put("/premium/:uid", controller.changeRole);
 router.post("/:uid/documents", uploader.any(), controller.uploadDocuments);
 router.delete("/", passport.authenticate("jwt"), authorizationRole(["admin"]), controller.deleteUsers)
 
