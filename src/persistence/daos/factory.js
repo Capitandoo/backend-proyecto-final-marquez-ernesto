@@ -27,9 +27,14 @@ switch (persistence) {
     ticketManager = new TicketManagerDB();
     break;
   default:
-    productManager = new ProductManagerFs(
-      "./src/daos/filesystem/products.json"
-    );
+    await initMongoDB();
+    userManager = new UserManager();
+    productManager = new ProductManager();
+    cartManager = new CartManager();
+    ticketManager = new TicketManagerDB();
+    //productManager = new ProductManagerFs(
+      //"./src/daos/filesystem/products.json"
+    //);
     //userManager = new UserManagerFS(...)
     break;
 }
