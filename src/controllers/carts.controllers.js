@@ -21,7 +21,7 @@ export default class CartController extends Controllers {
     try {
       const { cid } = req.params;
       const cart = await cartService.getCart (cid);
-      res.json(cart);
+      httpResponse.Ok(res, cart);
     } catch (error) {
       logger.error(error);
       next(error.message);
@@ -31,7 +31,7 @@ export default class CartController extends Controllers {
   createCart = async (req, res, next) => {
     try {
       const newCart = await cartService.createCart ();
-      res.json(newCart);
+      httpResponse.Ok(res, newCart);
     } catch (error) {
       logger.error(error);
       next(error.message);
@@ -51,8 +51,7 @@ export default class CartController extends Controllers {
       }
       await cartService.getCart (cid);
       const prodAdded = await cartService.addProductInCart (cid, pid);
-      console.log('carro===>',prodAdded)
-      res.json(prodAdded);
+      httpResponse.Ok(res, prodAdded);
     } catch (error) {
       logger.error(error);
       next(error.message);
@@ -64,7 +63,7 @@ export default class CartController extends Controllers {
       const cid = req.params.cid;
       const pid = req.params.pid;
       const prodDelete = await cartService.deleteProductInCart (cid, pid);
-      res.json(prodDelete);
+      httpResponse.Ok(res, prodDelete);
     } catch (error) {
       logger.error(error);
       next(error.message);
@@ -75,7 +74,7 @@ export default class CartController extends Controllers {
     try {
       const cid = req.params.cid;
       const cartDelete = await cartService.deleteCart (cid);
-      res.json (cartDelete);
+      httpResponse.Ok(res, cartDelete);
     } catch (error) {
       logger.error(error);
       next(error.message);
@@ -87,7 +86,7 @@ export default class CartController extends Controllers {
       const cid = req.params.cid;
       const data = {...req.body};
       const update = await cartService.updateCart (cid, data);
-      res.json (update);
+      httpResponse.Ok(res, update);
     } catch (error) {
       logger.error (error);
       next(error.message);
@@ -99,7 +98,7 @@ export default class CartController extends Controllers {
         const { cid, pid } = req.params;
         const { quantity } = req.body;
         const newQty = await cartService.updateProductInCart (cid, pid, quantity);
-        res.json(newQty);
+        httpResponse.Ok(res, newQty);
     } catch (error) {
       logger.error(error);
       next(error.message);

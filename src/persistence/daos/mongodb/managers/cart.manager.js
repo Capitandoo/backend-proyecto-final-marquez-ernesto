@@ -1,6 +1,5 @@
 import MongoDao from "../mongo.dao.js";
 import { CartsModel } from "../models/CartsModel.js";
-import { ProductsModel } from "../models/ProductModel.js";
 import { logger } from "../../../../utils/logger.js";
 
 export default class CartManager extends MongoDao{
