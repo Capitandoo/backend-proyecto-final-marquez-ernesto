@@ -22,14 +22,14 @@ router.get("/register", async (req, res) => {
 });
 
 router.get("/perfil", passport.authenticate ("jwtCookies"), async (req, res) => {
-  const userData = await userManager.getById (req.session.passport);
-  console.log('userDataperfil', userData)
+  const {userId} = req.user;
+  const userData = await userManager.getById (userId);
   res.render ("perfil", {
-    userData: userData
+    userData: userData.toJSON(),
   });
 });
 
-router.get("/productos", passportCall("jwtCookies"), async (req, res) => { 
+router.get("/productos", passport.authenticate ("jwtCookies"), async (req, res) => { 
   const {userId} = req.user;
   const userData = await userManager.getById (userId);
   const productos = await productManager.getAll();

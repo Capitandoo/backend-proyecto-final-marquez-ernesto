@@ -33,8 +33,8 @@ export default class UserManager extends MongoDao {
             cart: newCart._id
           });
           const token = generateToken (newUser);
-          const userData = ({newUser, token});
-          return userData;
+          //const userData = ({newUser, token});
+          return token;
         }
       } else {
         return null;
