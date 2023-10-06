@@ -4,11 +4,11 @@
 <div>
   <h1>¡¡Bienvenido!!</h1>
   <div class="user_info">
-    {{#each userData}}
-      <p>Nombre: {{first_name}}</p>
-      <p>Apellido: {{last_name}}</p>
-      <p>Rol: {{role}}</p>
-    {{/each}}
+    {{#with userData}}
+      <h3>{{first_name}}</h3>
+      <h3>{{last_name}}</h3>
+      <h3>{{role}}</h3>
+    {{/with}}
   </div>
   <a href="/logout">Log Out</a>
   <button onclick="location.href='/users/perfil'">TEST TOKEN</button>

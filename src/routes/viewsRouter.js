@@ -34,7 +34,7 @@ router.get("/productos", passportCall("jwtCookies"), async (req, res) => {
   const userData = await userManager.getById (userId);
   const productos = await productManager.getAll();
   res.render ("productos", {
-    userData: userData,
+    userData: userData.toJSON(),
     productos: productos.docs.map(product=>product.toJSON()),
   })
 });
