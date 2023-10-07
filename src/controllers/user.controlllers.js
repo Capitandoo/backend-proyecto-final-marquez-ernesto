@@ -28,6 +28,7 @@ export default class UserController extends Controllers {
   register = async (req, res, next) => {
     try {
       const userData = await userService.register (req.body);
+      res.cookie('token', userData, { httpOnly: true });
       return httpResponse.Ok(res, userData);
     } catch (error) {
       logger.error(error);
